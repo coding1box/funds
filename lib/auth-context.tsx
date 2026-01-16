@@ -1,7 +1,8 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-import { type User, mockUsers } from "./mock-data"
+import { type User } from "./types"
+import { mockUsers } from "./mock-data"
 
 interface AuthContextType {
   user: User | null
@@ -17,6 +18,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    // 确保只在客户端执行
+    if (typeof window === "undefined") {
+      setIsLoading(false)
+      return
+    }
+
     // 从localStorage加载用户信息，如果没有则默认使用第一个用户
     const storedUser = localStorage.getItem("currentUser")
     if (storedUser) {

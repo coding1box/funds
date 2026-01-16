@@ -133,17 +133,22 @@ export default function ApplicationsPage() {
     if (!info.result || info.result === "pending") return null
 
     let color = "bg-gray-100 text-gray-700 border-gray-200"
+    let label = "未知"
+
     if (info.result === "rejected") {
       color = "bg-red-50 text-red-700 border-red-200"
+      label = "驳回"
     } else if (info.result === "approved") {
       color = "bg-green-50 text-green-700 border-green-200"
+      label = "通过"
     } else {
       color = "bg-blue-50 text-blue-700 border-blue-200"
+      label = "未知"
     }
 
     return (
       <Badge variant="outline" className={color}>
-        {info.result === "approved" ? "通过" : "驳回"}
+        {label}
       </Badge>
     )
   }
@@ -155,6 +160,8 @@ export default function ApplicationsPage() {
   const [withdrawReason, setWithdrawReason] = useState("")
 
   const handleWithdraw = (invoiceId: string, reason: string) => {
+    if (!user) return
+
     const updated = invoices.map((inv) =>
       inv.id === invoiceId ? { ...inv, status: "rejected" as InvoiceStatus, updatedAt: new Date().toISOString() } : inv
     )
