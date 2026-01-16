@@ -8,10 +8,10 @@ interface RecentPaymentsProps {
   payments: Payment[]
 }
 
-const statusMap = {
-  pending: { label: "待确认", variant: "secondary" as const },
-  confirmed: { label: "已确认", variant: "default" as const },
-  reconciled: { label: "已对账", variant: "default" as const },
+const statusMap: Record<string, { label: string; variant: "default" | "secondary" | "destructive" }> = {
+  pending: { label: "待确认", variant: "secondary" },
+  confirmed: { label: "已确认", variant: "default" },
+  reconciled: { label: "已对账", variant: "default" },
 }
 
 export function RecentPayments({ payments }: RecentPaymentsProps) {

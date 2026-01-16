@@ -8,13 +8,19 @@ interface RecentInvoicesProps {
   invoices: Invoice[]
 }
 
-const statusMap = {
-  draft: { label: "草稿", variant: "secondary" as const },
-  pending_approval: { label: "待审批", variant: "default" as const },
-  approved: { label: "已批准", variant: "default" as const },
-  rejected: { label: "已拒绝", variant: "destructive" as const },
-  submitted_to_customer: { label: "已提交客户", variant: "default" as const },
-  completed: { label: "已完成", variant: "default" as const },
+const statusMap: Record<string, { label: string; variant: "default" | "secondary" | "destructive" }> = {
+  draft: { label: "草稿", variant: "secondary" },
+  pending_dept_leader_approval: { label: "待部门审批", variant: "secondary" },
+  pending_finance_approval: { label: "待财务审批", variant: "secondary" },
+  approved: { label: "已批准", variant: "default" },
+  rejected: { label: "已拒绝", variant: "destructive" },
+  pending_upload: { label: "待上传", variant: "secondary" },
+  submitted_to_customer: { label: "已提交客户", variant: "default" },
+  pending_customer_confirmation: { label: "待确认", variant: "secondary" },
+  completed: { label: "已完成", variant: "default" },
+  settled: { label: "已办结", variant: "default" },
+  group_billing_pending: { label: "集团开票待审核", variant: "secondary" },
+  group_billing_reviewed: { label: "集团开票已审核", variant: "default" },
 }
 
 export function RecentInvoices({ invoices }: RecentInvoicesProps) {
