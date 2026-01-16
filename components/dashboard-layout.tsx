@@ -19,7 +19,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const navigation = [
-    { name: "仪表板", href: "/dashboard", icon: LayoutDashboard },
     { name: "我的申请", href: "/applications", icon: CheckSquare },
     { name: "我的待办", href: "/todos", icon: CheckSquare },
     { name: "发票管理", href: "/invoices", icon: FileText },

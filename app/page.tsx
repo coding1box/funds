@@ -10,7 +10,7 @@ export default function HomePage() {
 
   useEffect(() => {
     if (!isLoading) {
-      router.push("/dashboard")
+      router.push("/applications")
     }
   }, [isLoading, router])
 
