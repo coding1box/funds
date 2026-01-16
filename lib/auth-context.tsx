@@ -24,21 +24,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return
     }
 
-    // 从localStorage加载用户信息，如果没有则默认使用第一个用户
-    const storedUser = localStorage.getItem("currentUser")
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
-    } else {
-      // 默认使用第一个用户（客户经理）
-      const defaultUser = mockUsers[0]
-      setUser(defaultUser)
-      localStorage.setItem("currentUser", JSON.stringify(defaultUser))
+    try {
+      // 从localStorage加载用户信息，如果没有则默认使用第一个用户
+      const storedUser = localStorage.getItem("currentUser")
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser) as User
+        setUser(parsedUser)
+      } else {
+        // 默认使用第一个用户（客户经理）
+        const defaultUser = mockUsers && mockUsers.length > 0 ? mockUsers[0] : null
+        if (defaultUser) {
+          setUser(defaultUser)
+          localStorage.setItem("currentUser", JSON.stringify(defaultUser))
+        }
+      }
+    } catch (error) {
+      console.error("Error loading user from localStorage:", error)
+      // 如果出错，设置默认用户
+      const defaultUser = mockUsers && mockUsers.length > 0 ? mockUsers[0] : null
+      if (defaultUser) {
+        setUser(defaultUser)
+      }
+    } finally {
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }, [])
 
   const login = (email: string) => {
-    const foundUser = mockUsers.find((u) => u.email === email)
+    const foundUser = mockUsers?.find((u) => u.email === email)
     if (foundUser) {
       setUser(foundUser)
       localStorage.setItem("currentUser", JSON.stringify(foundUser))
